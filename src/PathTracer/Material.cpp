@@ -48,7 +48,8 @@ bool Blend_Diffusion_Specular_Material::sample_ray(
 		double cos_w_d = dot(intersection_n_same_side, d);
 		// assign for the references
 		wi = Ray(intersection_point, d);
-		f_r = 1.0;
+		// f_r = 1.0;
+		f_r = 1.0 / cos_w_d;	// ideal reflection
 		one_div_pdf_w = 1.0 / m_spec;
 		cos_wi = cos_w_d;
 		return true;
@@ -79,12 +80,14 @@ bool Ideal_Refraction_Material::sample_ray(
 	double cos_theta1 = dot(r.d, intersection_n_same_side);
 	double cos_2_theta2 = 1 - n1_div_n2 * n1_div_n2 * (1 - cos_theta1 * cos_theta1);
 
+	double cos_refl_theta = dot(into ? intersection_n : intersection_n * (-1.0), refl_ray.d);
 	if (cos_2_theta2 < 0) {    
 		// Total internal reflection 
 		wi = refl_ray;
-		f_r = 1.0;
+		//f_r = 1.0;
+		f_r = 1.0 / cos_refl_theta; // ideal reflection
 		one_div_pdf_w = 1.0;
-		cos_wi = dot(into ? intersection_n : intersection_n * (-1.0), refl_ray.d);
+		cos_wi = cos_refl_theta;
 		return true;
 	}
 
@@ -103,21 +106,23 @@ bool Ideal_Refraction_Material::sample_ray(
 	double P = .25 + .5 * Re;
 	//double RP = Re / P;
 	//double TP = Tr / (1 - P);
-	double cos_refl_theta = dot(into ? intersection_n : intersection_n * (-1.0), refl_ray.d);
+
 	double cos_refr_theta = dot(into ? intersection_n * (-1.0) : intersection_n, refr_ray.d);
 
 	// R. R to determine trace reflection ray or refraction ray
 	if (rand_double() < P) {
 		wi = refl_ray;
-		f_r = Re;
+		// f_r = Re;
+		f_r = Re / cos_refl_theta; 
 		one_div_pdf_w = 1.0 / P;
 		cos_wi = cos_refl_theta;
 	}
 	else {
 		wi = refr_ray;
-		f_r = Tr;
+		f_r = Tr; 
 		one_div_pdf_w = 1.0 / (1.0 - P);
-		cos_wi = cos_refr_theta;
+		//cos_wi = cos_refr_theta;
+		cos_wi = 1.0;
 	}
 
 	return true;

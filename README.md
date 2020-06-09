@@ -43,8 +43,8 @@ Path Tracer
 
 samp:40
 
-![v40](/img/image_gen()~267s.png)
+![v40](/img/image_40p~267s.png)
 
 samp:100
 
-![v100](/img/image_gen()~646s.png)
+![v100](/img/image_100p~646s.png)
