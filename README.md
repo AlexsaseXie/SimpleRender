@@ -35,7 +35,7 @@ VS2015 + Qt 5.7
 
 Simple Render:
 
-![R](.\img\pipeline.gif)
+![R](/img/pipeline.gif)
 
 
 
@@ -43,8 +43,8 @@ Path Tracer
 
 samp:40
 
-![v40](.\img\image_gen()~267s.png)
+![v40](/img/image_gen()~267s.png)
 
 samp:100
 
-![v100](.\img\image_gen()~646s.png)
+![v100](/img/image_gen()~646s.png)
