@@ -1,0 +1,66 @@
+/* 
+	// f_reflection = 1.0
+	if (obj->material_type == DIFF) {                  // Ideal DIFFUSE reflection 
+		// an axis near the intersection
+		Vector3f w = intersection_n_same_side;
+		Vector3f u = normalize(cross((fabs(w.x()) > .1 ? Vector3f(0, 1, 0) : Vector3f(1, 0, 0)), w));
+		Vector3f v = cross(w, u);
+		// choose a random direction
+		double theta = 2 * M_PI * rand_double();
+		double r2 = rand_double();
+		double r2s = sqrt(r2);
+		Vector3f d = normalize(u * cos(theta) * r2s + v * sin(theta) * r2s + w * sqrt(1 - r2));
+		double cos_w_d = dot(w, d);
+		// recursion
+		return obj->e + obj_color * (radiance(Ray(intersection_point, d), depth)) * cos_w_d;
+	}
+	else if (obj->material_type == SPEC) {    
+		// Ideal SPECULAR reflection 
+		Vector3f d = r.d - intersection_n * 2 * dot(intersection_n, r.d);
+		double cos_w_d = dot(intersection_n_same_side, d);
+		return obj->e + obj_color * (radiance( Ray(intersection_point, d), depth)) * cos_w_d;
+	}
+	
+	// Ideal dielectric REFRACTION 
+	// f_refraciton = 1.0
+	Ray refl_ray(intersection_point, r.d - intersection_n * 2 * dot(intersection_n, r.d));	// reflection ray direction
+	bool into = dot(intersection_n, intersection_n_same_side) > 0;                // Ray from outside going in? 
+	double nc = 1.0; // vacuum's refraction rate
+	double nt = obj->refraction_rate;
+	double n1_div_n2 = into ? nc / nt : nt / nc;
+	double cos_theta1 = dot(r.d, intersection_n_same_side);
+	double cos_2_theta2 = 1 - n1_div_n2 * n1_div_n2 * (1 - cos_theta1 * cos_theta1);
+	// nnt * sin( angle<d, n> ) >= 1 
+	if (cos_2_theta2 < 0 )    // Total internal reflection 
+		return obj->e + obj_color * (radiance(refl_ray, depth));
+	double cos_theta2 = sqrt(cos_2_theta2);
+	// calculate the refraction ray
+	Vector3f refr_ray = normalize(
+		r.d * n1_div_n2 - intersection_n * ((into ? 1 : -1) * (cos_theta1 * n1_div_n2 + cos_theta2)) 
+	);
+
+	double a = nt - nc;
+	double b = nt + nc;
+	double R0 = a * a / ( b * b );
+	double c = 1 - (into ? - cos_theta1 : dot(refr_ray, intersection_n));
+	double Re = R0 + (1 - R0) * pow(c, 5.0);
+	double Tr = 1 - Re;
+	double P = .25 + .5 * Re;
+	double RP = Re / P;
+	double TP = Tr / (1 - P);
+
+	double cos_refl_theta = dot(into ? intersection_n : intersection_n * (-1.0), refl_ray.d);
+	double cos_refr_theta = dot(into ? intersection_n * (-1.0) : intersection_n, refr_ray);
+	
+	//if (depth <= 2)
+	//	return obj->e + obj_color * ( 
+	//		radiance(refl_ray, depth) * Re * cos_refl_theta + 
+	//		radiance(Ray(intersection_point, refr_ray), depth) * Tr * cos_refr_theta
+	//	);
+	//else
+		return obj->e + obj_color *
+		( rand_double() < P ?   // Russian roulette, eithor show reflection color or show refraction color
+			radiance(refl_ray, depth) * RP * cos_refl_theta : 
+			radiance(Ray(intersection_point, refr_ray), depth) * TP * cos_refr_theta
+		);
+	*/

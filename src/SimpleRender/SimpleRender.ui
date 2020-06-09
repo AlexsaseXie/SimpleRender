@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SimpleRenderClass</class>
+ <widget class="QWidget" name="SimpleRenderClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1000</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SimpleRender</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>0</y>
+     <width>800</width>
+     <height>600</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>150</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Render</string>
+   </property>
+   <widget class="QRadioButton" name="wireRadio">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>132</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Wire</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="meshRadio">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>132</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mesh</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>150</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Projection</string>
+   </property>
+   <widget class="QRadioButton" name="perspectiveRadio">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>132</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Perspective</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="orthoRadio">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>132</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ortho</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="textureButton">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>260</y>
+     <width>112</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Texture</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="SimpleRender.qrc"/>
+ </resources>
+ <connections/>
+</ui>
